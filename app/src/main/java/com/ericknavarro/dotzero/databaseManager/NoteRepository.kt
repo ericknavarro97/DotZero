@@ -19,8 +19,8 @@ class NoteRepository(private val noteDao: NoteDao) {
         return noteDao.getNoteById(id)
     }
 
-    fun updateNote(note: Note){
-        noteDao.updateNote(note)
+    fun updateNote(note: Note): Int{
+        return noteDao.updateNote(note)
     }
 
 }

@@ -15,9 +15,10 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_action_add" />
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
     <ScrollView
         android:id="@+id/scrollView2"

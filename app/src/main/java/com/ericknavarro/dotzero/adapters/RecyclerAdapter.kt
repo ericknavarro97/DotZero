@@ -1,29 +1,28 @@
 package com.ericknavarro.dotzero.adapters
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.getColor
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 
 import com.ericknavarro.dotzero.R
 import com.ericknavarro.dotzero.activities.NoteActivity
-import com.ericknavarro.dotzero.databaseManager.NoteRepository
 import com.ericknavarro.dotzero.models.Note
-import java.util.*
 
 class RecyclerAdapter internal constructor(
     context: Context
 ) : RecyclerView.Adapter<RecyclerAdapter.NoteViewHolder>() {
+
+    companion object{
+        const val RECYCLER_ADAPTER_REQUEST = 2
+        const val ID_NOTE = "idNote"
+    }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var notes = emptyList<Note>().toMutableList()// Cached copy of words
@@ -50,13 +49,9 @@ class RecyclerAdapter internal constructor(
         holder.titleNote.setOnClickListener {
             val noteIntent = Intent(holder.context, NoteActivity::class.java)
             noteIntent.putExtra(ID_NOTE, current.id)
-            context.startActivity(noteIntent)
+            (context as Activity).startActivityForResult(noteIntent, RECYCLER_ADAPTER_REQUEST)
         }
 
-    }
-
-    companion object{
-        const val ID_NOTE = "idNote"
     }
 
     fun removeAt(position: Int) {

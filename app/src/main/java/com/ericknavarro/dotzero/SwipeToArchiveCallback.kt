@@ -27,7 +27,7 @@ abstract class SwipeToArchiveCallback(context: Context) : ItemTouchHelper.Simple
     /*override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
         /**
          * To disable "swipe" for specific item return 0 here.
-         * For example:
+         * For TrashFragment:
          * if (viewHolder?.itemViewType == YourAdapter.SOME_TYPE) return 0
          * if (viewHolder?.adapterPosition == 0) return 0
          */

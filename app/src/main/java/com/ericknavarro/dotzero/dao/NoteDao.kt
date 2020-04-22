@@ -23,6 +23,6 @@ interface NoteDao {
     fun setArchivedNote(id: Long)
 
     @Update
-    fun updateNote(note: Note)
+    fun updateNote(note: Note): Int
 
 }

@@ -9,24 +9,20 @@ import android.view.ViewGroup
 
 import com.ericknavarro.dotzero.R
 
-class example : Fragment() {
+class TrashFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = example()
-    }
-
-    private lateinit var viewModel: ExampleViewModel
+    private lateinit var viewModel: TrashViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.example_fragment, container, false)
+        return inflater.inflate(R.layout.trash_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ExampleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(TrashViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

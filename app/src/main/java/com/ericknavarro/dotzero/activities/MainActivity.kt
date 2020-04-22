@@ -3,9 +3,7 @@ package com.ericknavarro.dotzero.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -19,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
 import com.ericknavarro.dotzero.R
+import com.ericknavarro.dotzero.adapters.RecyclerAdapter
 import com.ericknavarro.dotzero.models.Note
 import com.ericknavarro.dotzero.ui.note.NoteViewModel
 
@@ -26,8 +25,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    private val newNoteActivityRequestCode = 1
     private lateinit var noteViewModel: NoteViewModel
+
+    companion object{
+        const val MAIN_ACTIVITY_REQUEST = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             val noteIntent = Intent(this@MainActivity, NoteActivity::class.java)
-            startActivityForResult(noteIntent, newNoteActivityRequestCode)
+            startActivityForResult(noteIntent, MAIN_ACTIVITY_REQUEST)
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_home,
             R.id.nav_gallery,
             R.id.nav_slideshow,
-            R.id.nav_example
+            R.id.nav_trash
         ), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -62,31 +64,30 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == newNoteActivityRequestCode && resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             data?.let { data ->
 
-                Log.e("id act:", "sdf")
-
-                val note = Note(data.getStringExtra(NoteActivity.TITLE_REPLY), data.getStringExtra(NoteActivity.BODY_REPLY), data.getIntExtra(NoteActivity.COLOR_REPLY, R.color.grayColor),
+                val note = Note(data.getLongExtra(NoteActivity.ID_REPLY, 0), data.getStringExtra(NoteActivity.TITLE_REPLY), data.getStringExtra(NoteActivity.BODY_REPLY), data.getIntExtra(NoteActivity.COLOR_REPLY, R.color.grayColor),
                     data.getIntExtra(NoteActivity.DARK_COLOR_REPLY, R.color.whiteColorDark), data.getStringExtra(NoteActivity.LAST_UPDATE_REPLY))
 
-                if(data.getBooleanExtra(NoteActivity.UPDATE_REPLY, false))
-                    noteViewModel.updateNote(note)
-                else
-                    noteViewModel.insertNote(note)
+                when(requestCode){
+                    MAIN_ACTIVITY_REQUEST -> noteViewModel.insertNote(note)
+
+                    RecyclerAdapter.RECYCLER_ADAPTER_REQUEST -> noteViewModel.updateNote(note)
+
+                    else -> TODO("Something")
+                }
 
             }
         } else {
 
             Toast.makeText(
-                applicationContext,"Empty Note Discarded",
+                applicationContext,"Changes Discarded",
                 Toast.LENGTH_LONG
             ).show()
         }
 
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

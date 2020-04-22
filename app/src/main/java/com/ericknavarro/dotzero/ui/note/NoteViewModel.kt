@@ -37,8 +37,8 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getNoteById(id)
     }
 
-    fun updateNote(note: Note){
-        repository.updateNote(note)
+    fun updateNote(note: Note): Int{
+        return repository.updateNote(note)
     }
 
 }

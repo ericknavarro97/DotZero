@@ -41,8 +41,8 @@
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/example"
-        android:name="com.ericknavarro.dotzero.ui.example.example"
+        android:id="@+id/nav_trash"
+        android:name="com.ericknavarro.dotzero.ui.example.TrashFragment"
         android:label="example_fragment"
-        tools:layout="@layout/example_fragment" />
+        tools:layout="@layout/trash_fragment" />
 </navigation>

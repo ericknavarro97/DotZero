@@ -6,6 +6,8 @@ import com.ericknavarro.dotzero.R
 
 @Entity(tableName = "notes_table")
 data class Note(
+    @PrimaryKey(autoGenerate = true)
+    var id: Long = 0,
     var title: String,
     var body: String,
     var color: Int = R.color.grayColor,
@@ -16,9 +18,12 @@ data class Note(
 )
 
 {
+    override fun toString(): String {
+        return "Note(title='$title', body='$body', color=$color, darkColor=$darkColor, lastUpdated='$lastUpdated', isArchived=$isArchived, isDeleted=$isDeleted, id=$id)"
+    }
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0
 
 }
+
+
 
