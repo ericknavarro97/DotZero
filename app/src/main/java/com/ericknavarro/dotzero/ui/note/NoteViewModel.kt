@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.ericknavarro.dotzero.databaseManager.NoteRepository
-import com.ericknavarro.dotzero.databaseManager.NoteRoomDatabase
+import com.ericknavarro.dotzero.database.repositoires.NoteRepository
+import com.ericknavarro.dotzero.database.manager.NoteRoomDatabase
 import com.ericknavarro.dotzero.models.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     init {
 
         val notesDao = NoteRoomDatabase.getDatabase(application).noteDao()
-        repository = NoteRepository(notesDao)
+        repository =
+            NoteRepository(
+                notesDao
+            )
         allNotes = repository.allNotes
     }
 
@@ -39,6 +42,14 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateNote(note: Note): Int{
         return repository.updateNote(note)
+    }
+
+    fun trashNoteById(id: Long): Int{
+        return repository.trashNoteById(id)
+    }
+
+    fun archiveNoteById(id: Long){
+        repository.archiveNoteById(id)
     }
 
 }

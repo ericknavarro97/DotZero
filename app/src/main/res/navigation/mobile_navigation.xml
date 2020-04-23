@@ -36,13 +36,13 @@
         tools:layout="@layout/fragment_archived" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.ericknavarro.dotzero.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_settings"
+        android:name="com.ericknavarro.dotzero.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/nav_trash"
-        android:name="com.ericknavarro.dotzero.ui.example.TrashFragment"
-        android:label="example_fragment"
+        android:name="com.ericknavarro.dotzero.ui.trash.TrashFragment"
+        android:label="@string/menu_trash"
         tools:layout="@layout/trash_fragment" />
 </navigation>

@@ -71,6 +71,8 @@ class NoteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = "Note"
 
+        lastUpdate.text = Date().toString()
+
         wasOpenedNote = intent.hasExtra(RecyclerAdapter.ID_NOTE)
 
         if(wasOpenedNote)
@@ -207,7 +209,7 @@ class NoteActivity : AppCompatActivity() {
     }
 
     private fun saveOrDiscardChanges(){
-        if (titleNote.text.isNotEmpty() && bodyNote.text.isNotEmpty())
+        if (!titleNote.text.isNotEmpty() && !bodyNote.text.isNotEmpty())
             finish()
         else
             saveNoteContent()

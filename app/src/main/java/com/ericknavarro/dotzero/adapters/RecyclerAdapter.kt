@@ -1,6 +1,7 @@
 package com.ericknavarro.dotzero.adapters
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 
 import com.ericknavarro.dotzero.R
@@ -32,6 +34,7 @@ class RecyclerAdapter internal constructor(
         val context: Context = itemView.context
         val titleNote: TextView = itemView.findViewById(R.id.titleNote)
         val colorNote: LinearLayout = itemView.findViewById(R.id.LinearLayoutColor)
+        val constrainLayoutNote: ConstraintLayout = itemView.findViewById(R.id.constrainLayoutNote)
 
     }
 
@@ -52,16 +55,30 @@ class RecyclerAdapter internal constructor(
             (context as Activity).startActivityForResult(noteIntent, RECYCLER_ADAPTER_REQUEST)
         }
 
+        holder.constrainLayoutNote.setOnLongClickListener {
+
+            AlertDialog.Builder(holder.context)
+                .setIcon(R.drawable.ic_action_delete)
+                .setTitle("Delete")
+                .setMessage("¿Are you shure of delete the note?")
+                .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null)
+                .setCancelable(true)
+                .create()
+                .show()
+
+            true
+        }
+
+    }
+
+    fun getItem(position: Int): Note {
+        return notes[position]
     }
 
     fun removeAt(position: Int) {
         notes.removeAt(position)
         notifyItemRemoved(position)
-    }
-
-    fun addAt(position: Int, note: Note){
-        notes.add(position, note)
-        notifyItemInserted(position)
     }
 
     internal fun setNotes(note: List<Note>) {

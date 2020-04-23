@@ -1,17 +1,14 @@
-package com.ericknavarro.dotzero.databaseManager
+package com.ericknavarro.dotzero.database.manager
 
 import android.content.Context
-import android.os.AsyncTask
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.ericknavarro.dotzero.R
 import com.ericknavarro.dotzero.dao.NoteDao
 import com.ericknavarro.dotzero.models.Note
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NoteRoomDatabase : RoomDatabase() {

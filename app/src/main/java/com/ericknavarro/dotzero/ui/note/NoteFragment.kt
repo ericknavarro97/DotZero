@@ -1,5 +1,6 @@
 package com.ericknavarro.dotzero.ui.note
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,11 +16,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.ericknavarro.dotzero.R
 import com.ericknavarro.dotzero.SwipeToArchiveCallback
 import com.ericknavarro.dotzero.adapters.RecyclerAdapter
+import com.ericknavarro.dotzero.ui.archived.ArchivedViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class NoteFragment : Fragment() {
 
     private lateinit var noteViewModel: NoteViewModel
+    private lateinit var archivedViewModel: ArchivedViewModel
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: RecyclerAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -27,13 +33,20 @@ class NoteFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
+        archivedViewModel = ViewModelProviders.of(this).get(ArchivedViewModel::class.java)
 
         val root = inflater.inflate(R.layout.fragment_note, container, false)
 
-        val recyclerView = root.findViewById<RecyclerView>(R.id.recyclerNotes)
-        val adapter = RecyclerAdapter(root.context)
+        recyclerView = root.findViewById(R.id.recyclerNotes)
+        adapter = RecyclerAdapter(root.context)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(root.context)
+
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         noteViewModel.allNotes.observe(viewLifecycleOwner, Observer { notes ->
             notes?.let { adapter.setNotes(it) }
@@ -44,16 +57,17 @@ class NoteFragment : Fragment() {
         /**
          * <p>With left swipe remove (archive) the item from the list</p>
          */
-        val swipeArchive = object : SwipeToArchiveCallback(root.context) {
+        val swipeArchive = object : SwipeToArchiveCallback(requireContext()) {
 
             override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
 
-                Snackbar.make(root, "Note Archived", Snackbar.LENGTH_LONG).setAction("Undo") {
-                    Toast.makeText(root.context, "" + p0.adapterPosition + "", Toast.LENGTH_LONG).show()
-                    //adapter.addAt(p0.oldPosition, )
-                }.show()
+                val note = adapter.getItem(p0.adapterPosition)
 
-                Log.e("bah", ""+ p0.adapterPosition + ", " + adapter.getItemId(p0.adapterPosition))
+                view?.let {
+                    Snackbar.make(it, "Note Archived", Snackbar.LENGTH_LONG).setAction("Undo") {archivedViewModel.unarchiveNoteById(note.id) }.show()
+                }
+
+                noteViewModel.archiveNoteById(note.id)
 
                 adapter.removeAt(p0.adapterPosition)
             }
@@ -62,8 +76,6 @@ class NoteFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeArchive)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        return root
     }
-
 
 }
