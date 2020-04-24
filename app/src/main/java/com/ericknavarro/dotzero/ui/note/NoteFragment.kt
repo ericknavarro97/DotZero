@@ -52,8 +52,6 @@ class NoteFragment : Fragment() {
             notes?.let { adapter.setNotes(it) }
         })
 
-        //adapter.addAt(0, Note("badfsdfah", "baaah", R.color.colorAccent, Date().toString(), 0,0))
-
         /**
          * <p>With left swipe remove (archive) the item from the list</p>
          */
