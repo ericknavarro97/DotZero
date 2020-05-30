@@ -14,7 +14,7 @@ class ArchivedViewModel(application: Application) : AndroidViewModel(application
     var archivedNotes: LiveData<List<Note>>
 
     init {
-        val dao = NoteRoomDatabase.getDatabase(application).noteDao()
+        val dao = NoteRoomDatabase.getDatabase(application).archiveDao()
         repository =
             ArchivedNoteRepository(
                 dao

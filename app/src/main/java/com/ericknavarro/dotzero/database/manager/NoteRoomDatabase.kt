@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ericknavarro.dotzero.dao.ArchiveDao
 import com.ericknavarro.dotzero.dao.NoteDao
 import com.ericknavarro.dotzero.models.Note
 import kotlinx.coroutines.CoroutineScope
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 abstract class NoteRoomDatabase : RoomDatabase() {
 
     abstract fun noteDao(): NoteDao
+    abstract fun archiveDao(): ArchiveDao
 
     private class WordDatabaseCallback(
         private val scope: CoroutineScope

@@ -13,31 +13,19 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertNote(note: Note)
 
-    @Query("SELECT * FROM notes_table WHERE isArchived = 1")
-    fun getArchivedNotes(): LiveData<List<Note>>
-
     @Query("SELECT * FROM notes_table WHERE id = :id")
     fun getNoteById(id: Long): Note
-
-    @Query("UPDATE notes_table SET isArchived = 1 WHERE id = :id")
-    fun achiveNoteById(id: Long): Int
-
-    @Query("UPDATE notes_table SET isArchived = 0 WHERE id = :id")
-    fun unarchiveNoteById(id: Long)
 
     @Update
     fun updateNote(note: Note): Int
 
-    @Query("UPDATE notes_table SET isArchived = 0, isDeleted = 1 WHERE id = :id")
-    fun trashNoteById(id: Long): Int
-
-    @Query("SELECT * FROM notes_table WHERE isDeleted = 1")
-    fun getAllTrashNotes(): LiveData<List<Note>>
+    @Delete
+    fun deleteNote(note: Note): Int
 
     @Query("DELETE FROM notes_table")
     fun deleteAllNotes()
 
-    @Delete
-    fun deleteNote(note: Note): Int
+    @Query("SELECT * FROM notes_table WHERE isDeleted = 1")
+    fun getAllTrashNotes(): LiveData<List<Note>>
 
 }

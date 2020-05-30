@@ -22,12 +22,12 @@ class NoteRepository(private val dao: NoteDao) {
         return dao.updateNote(note)
     }
 
-    fun archiveNoteById(id: Long): Int{
-        return dao.achiveNoteById(id);
+    /*fun archiveNoteById(id: Long): Int{
+        return dao.achiveNoteById(id)
     }
 
     fun trashNoteById(id: Long): Int{
         return dao.trashNoteById(id)
-    }
+    }*/
 
 }
